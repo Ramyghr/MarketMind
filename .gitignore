@@ -5,4 +5,5 @@ data/raw/
 __pycache__/
 .env
 mlruns/
-wandb/
+wandb/Miniconda3-latest-Linux-x86_64.sh
+*.sh
