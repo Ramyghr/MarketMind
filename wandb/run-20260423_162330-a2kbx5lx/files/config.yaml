@@ -1,0 +1,37 @@
+_wandb:
+    value:
+        cli_version: 0.26.0
+        e:
+            drj5fj85uv8mmu4az47087tuy1yhmusc:
+                codePath: tests/test_wandb.py
+                codePathLocal: tests/test_wandb.py
+                cpu_count: 4
+                cpu_count_logical: 8
+                disk:
+                    /:
+                        total: "152391778304"
+                        used: "104292278272"
+                email: ramy.gharbi@esprit.tn
+                executable: /home/ramy/miniconda3/envs/marketmind/bin/python3
+                git:
+                    commit: b2f81e61014578e879186727347caa63f8cd3150
+                    remote: https://github.com/Ramyghr/marketmind.git
+                host: ramy
+                memory:
+                    total: "16543469568"
+                os: Linux-6.14.0-29-generic-x86_64-with-glibc2.39
+                program: /home/ramy/Documents/MarketMind_PFE/MarketMind/tests/test_wandb.py
+                python: CPython 3.10.20
+                root: /home/ramy/Documents/MarketMind_PFE/MarketMind
+                startedAt: "2026-04-23T15:23:30.951308Z"
+                writerId: drj5fj85uv8mmu4az47087tuy1yhmusc
+        m: []
+        python_version: 3.10.20
+        t:
+            "3":
+                - 2
+                - 13
+            "4": 3.10.20
+            "5": 0.26.0
+            "12": 0.26.0
+            "13": linux-x86_64

@@ -1,0 +1,28 @@
+{
+  "os": "Linux-6.14.0-29-generic-x86_64-with-glibc2.39",
+  "python": "CPython 3.10.20",
+  "startedAt": "2026-04-23T15:23:30.951308Z",
+  "program": "/home/ramy/Documents/MarketMind_PFE/MarketMind/tests/test_wandb.py",
+  "codePath": "tests/test_wandb.py",
+  "codePathLocal": "tests/test_wandb.py",
+  "git": {
+    "remote": "https://github.com/Ramyghr/marketmind.git",
+    "commit": "b2f81e61014578e879186727347caa63f8cd3150"
+  },
+  "email": "ramy.gharbi@esprit.tn",
+  "root": "/home/ramy/Documents/MarketMind_PFE/MarketMind",
+  "host": "ramy",
+  "executable": "/home/ramy/miniconda3/envs/marketmind/bin/python3",
+  "cpu_count": 4,
+  "cpu_count_logical": 8,
+  "disk": {
+    "/": {
+      "total": "152391778304",
+      "used": "104292278272"
+    }
+  },
+  "memory": {
+    "total": "16543469568"
+  },
+  "writerId": "drj5fj85uv8mmu4az47087tuy1yhmusc"
+}
