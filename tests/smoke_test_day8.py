@@ -1,7 +1,7 @@
 import sys
 sys.path.insert(0, 'src')
 import numpy as np
-from ssl.augmentations import jitter, scaling, window_slice, augment
+from ssl_model.augmentations import jitter, scaling, window_slice, augment
 
 x = np.random.randn(60, 5).astype(np.float32)
 

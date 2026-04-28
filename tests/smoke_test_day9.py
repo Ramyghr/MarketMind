@@ -1,8 +1,8 @@
 import sys
 sys.path.insert(0, 'src')
 import torch
-from ssl.encoder import MarketEncoder
-from ssl.losses import nt_xent_loss
+from ssl_model.encoder import MarketEncoder
+from ssl_model.losses import nt_xent_loss
 
 enc = MarketEncoder()
 x1 = torch.randn(32, 60, 5)

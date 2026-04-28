@@ -1,0 +1,28 @@
+{
+  "os": "Linux-6.14.0-29-generic-x86_64-with-glibc2.39",
+  "python": "CPython 3.10.20",
+  "startedAt": "2026-04-27T12:27:04.597148Z",
+  "program": "/home/ramy/Documents/MarketMind_PFE/MarketMind/src/ssl_model/train_ssl.py",
+  "codePath": "src/ssl_model/train_ssl.py",
+  "codePathLocal": "src/ssl_model/train_ssl.py",
+  "git": {
+    "remote": "https://github.com/Ramyghr/marketmind.git",
+    "commit": "fb0cfae562cfabc732d5f5452710b8ec2907acf7"
+  },
+  "email": "ramy.gharbi@esprit.tn",
+  "root": "/home/ramy/Documents/MarketMind_PFE/MarketMind",
+  "host": "ramy",
+  "executable": "/home/ramy/miniconda3/envs/marketmind/bin/python",
+  "cpu_count": 4,
+  "cpu_count_logical": 8,
+  "disk": {
+    "/": {
+      "total": "152391778304",
+      "used": "119029981184"
+    }
+  },
+  "memory": {
+    "total": "16543477760"
+  },
+  "writerId": "enxc90dz54gr4a8j43q8ar6uksdujfai"
+}

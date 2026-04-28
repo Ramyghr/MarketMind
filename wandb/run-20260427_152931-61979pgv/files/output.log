@@ -1,0 +1,65 @@
+device: cpu
+Traceback (most recent call last):
+  File "/home/ramy/Documents/MarketMind_PFE/MarketMind/src/ssl_model/train_ssl.py", line 47, in <module>
+    for x1, x2 in train_loader:
+  File "/home/ramy/miniconda3/envs/marketmind/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1779, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/ramy/miniconda3/envs/marketmind/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1790, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/ramy/Documents/MarketMind_PFE/MarketMind/src/ssl_model/encoder.py", line 18, in forward
+    x = self.transformer(x)
+  File "/home/ramy/miniconda3/envs/marketmind/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1779, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/ramy/miniconda3/envs/marketmind/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1790, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/ramy/miniconda3/envs/marketmind/lib/python3.10/site-packages/torch/nn/modules/transformer.py", line 540, in forward
+    output = mod(
+  File "/home/ramy/miniconda3/envs/marketmind/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1779, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/ramy/miniconda3/envs/marketmind/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1790, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/ramy/miniconda3/envs/marketmind/lib/python3.10/site-packages/torch/nn/modules/transformer.py", line 954, in forward
+    + self._sa_block(x, src_mask, src_key_padding_mask, is_causal=is_causal)
+  File "/home/ramy/miniconda3/envs/marketmind/lib/python3.10/site-packages/torch/nn/modules/transformer.py", line 968, in _sa_block
+    x = self.self_attn(
+  File "/home/ramy/miniconda3/envs/marketmind/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1779, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/ramy/miniconda3/envs/marketmind/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1790, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/ramy/miniconda3/envs/marketmind/lib/python3.10/site-packages/torch/nn/modules/activation.py", line 1492, in forward
+    attn_output, attn_output_weights = F.multi_head_attention_forward(
+  File "/home/ramy/miniconda3/envs/marketmind/lib/python3.10/site-packages/torch/nn/functional.py", line 6682, in multi_head_attention_forward
+    attn_output = scaled_dot_product_attention(
+KeyboardInterrupt
+Traceback (most recent call last):
+  File "/home/ramy/Documents/MarketMind_PFE/MarketMind/src/ssl_model/train_ssl.py", line 47, in <module>
+    for x1, x2 in train_loader:
+  File "/home/ramy/miniconda3/envs/marketmind/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1779, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/ramy/miniconda3/envs/marketmind/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1790, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/ramy/Documents/MarketMind_PFE/MarketMind/src/ssl_model/encoder.py", line 18, in forward
+    x = self.transformer(x)
+  File "/home/ramy/miniconda3/envs/marketmind/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1779, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/ramy/miniconda3/envs/marketmind/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1790, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/ramy/miniconda3/envs/marketmind/lib/python3.10/site-packages/torch/nn/modules/transformer.py", line 540, in forward
+    output = mod(
+  File "/home/ramy/miniconda3/envs/marketmind/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1779, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/ramy/miniconda3/envs/marketmind/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1790, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/ramy/miniconda3/envs/marketmind/lib/python3.10/site-packages/torch/nn/modules/transformer.py", line 954, in forward
+    + self._sa_block(x, src_mask, src_key_padding_mask, is_causal=is_causal)
+  File "/home/ramy/miniconda3/envs/marketmind/lib/python3.10/site-packages/torch/nn/modules/transformer.py", line 968, in _sa_block
+    x = self.self_attn(
+  File "/home/ramy/miniconda3/envs/marketmind/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1779, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/ramy/miniconda3/envs/marketmind/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1790, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/ramy/miniconda3/envs/marketmind/lib/python3.10/site-packages/torch/nn/modules/activation.py", line 1492, in forward
+    attn_output, attn_output_weights = F.multi_head_attention_forward(
+  File "/home/ramy/miniconda3/envs/marketmind/lib/python3.10/site-packages/torch/nn/functional.py", line 6682, in multi_head_attention_forward
+    attn_output = scaled_dot_product_attention(
+KeyboardInterrupt
