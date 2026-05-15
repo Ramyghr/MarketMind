@@ -19,6 +19,7 @@ FIG_DIR = PROJECT_ROOT / "notebooks/figures"
 
 TEST_START = pd.Timestamp("2024-01-01")
 TEST_END = pd.Timestamp("2025-01-01")
+# Treat absolute 30-day returns <= 0.1% as near-zero noise.
 NEAR_ZERO_THRESHOLD = 1e-3
 
 
@@ -105,7 +106,7 @@ def _build_labels(df: pd.DataFrame) -> tuple[np.ndarray, np.ndarray, np.ndarray,
     )
 
     bar_ret = closes.pct_change()
-    rolling_vol = bar_ret.rolling(window=periods, min_periods=max(periods // 2, 10)).std()
+    rolling_vol = bar_ret.rolling(window=periods, min_periods=max(periods // 2, 1)).std()
     valid_mask = rolling_ret.notna() & rolling_vol.notna() & quarter_all.notna()
     if valid_mask.sum() < 2:
         raise ValueError(
@@ -165,7 +166,7 @@ def _plot_quarter(coords: np.ndarray, quarter_labels: np.ndarray) -> None:
         s=6,
         alpha=0.75,
     )
-    cbar = plt.colorbar(scatter, ticks=[1, 2, 3, 4])
+    cbar = plt.colorbar(scatter, ticks=np.unique(quarter_labels))
     cbar.set_label("Calendar Quarter")
     plt.title("t-SNE of SSL Embeddings — Colored by Quarter (2024)")
     plt.xlabel("t-SNE 1")
