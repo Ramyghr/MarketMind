@@ -89,7 +89,7 @@ def _load_and_align() -> tuple[np.ndarray, pd.DataFrame]:
         ts_test = ts_test.iloc[:n_emb]
 
     btc_test["timestamp"] = pd.to_datetime(ts_test.values)
-    return emb.astype(np.float32, copy=False), btc_test
+    return emb.astype(np.float32), btc_test
 
 
 def _build_labels(df: pd.DataFrame) -> tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
@@ -106,7 +106,7 @@ def _build_labels(df: pd.DataFrame) -> tuple[np.ndarray, np.ndarray, np.ndarray,
     )
 
     bar_ret = closes.pct_change()
-    rolling_vol = bar_ret.rolling(window=periods, min_periods=max(periods // 2, 1)).std()
+    rolling_vol = bar_ret.rolling(window=periods, min_periods=periods).std()
     valid_mask = rolling_ret.notna() & rolling_vol.notna() & quarter_all.notna()
     if valid_mask.sum() < 2:
         raise ValueError(
@@ -119,15 +119,26 @@ def _build_labels(df: pd.DataFrame) -> tuple[np.ndarray, np.ndarray, np.ndarray,
     rolling_vol = rolling_vol.loc[valid_mask]
 
     try:
-        vol_bins = pd.qcut(rolling_vol, q=3, labels=["low", "mid", "high"], duplicates="drop")
+        vol_bins = pd.qcut(rolling_vol, q=3, duplicates="drop")
     except ValueError:
-        vol_bins = pd.cut(rolling_vol, bins=3, labels=["low", "mid", "high"], include_lowest=True)
+        vol_bins = pd.cut(rolling_vol, bins=3, include_lowest=True)
     if vol_bins.isna().any():
         raise ValueError(
             "Volatility bins contain NaN values after binning. "
             "Check data quality or rolling window configuration."
         )
-    vol_labels = vol_bins.astype(str).to_numpy()
+
+    codes = vol_bins.cat.codes.to_numpy()
+    n_bins = len(vol_bins.cat.categories)
+    if n_bins >= 3:
+        map_idx = {0: "low", 1: "mid", 2: "high"}
+        codes = np.clip(codes, 0, 2)
+        vol_labels = np.array([map_idx[i] for i in codes], dtype=object)
+    elif n_bins == 2:
+        map_idx = {0: "low", 1: "high"}
+        vol_labels = np.array([map_idx[i] for i in codes], dtype=object)
+    else:
+        vol_labels = np.array(["mid"] * len(codes), dtype=object)
 
     return valid_mask.to_numpy(), quarter_labels, ret_sign, vol_labels
 
