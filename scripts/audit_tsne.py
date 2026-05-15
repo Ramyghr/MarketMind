@@ -233,6 +233,7 @@ def _print_silhouette_and_interpretation(coords: np.ndarray, quarter_labels: np.
     score = silhouette_score(coords, quarter_labels)
     print(f"Silhouette score (quarter labels on 2D t-SNE): {score:.4f}")
 
+    # Requested interpretation bands for this audit task.
     if score > 0.2:
         interpretation = "structure detected"
     elif score < 0.1:
