@@ -91,28 +91,44 @@ def _load_and_align() -> tuple[np.ndarray, pd.DataFrame]:
     return emb.astype(np.float32, copy=False), btc_test
 
 
-def _build_labels(df: pd.DataFrame) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
+def _build_labels(df: pd.DataFrame) -> tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
     periods = _rolling_period_30d(df["timestamp"])
     closes = pd.to_numeric(df["close"], errors="coerce")
 
-    quarter_labels = df["timestamp"].dt.quarter.astype(int).to_numpy()
+    quarter_all = df["timestamp"].dt.quarter.astype(int)
 
-    rolling_ret = closes.pct_change(periods=periods).fillna(0.0)
+    rolling_ret = closes.pct_change(periods=periods)
     ret_sign = np.where(
         rolling_ret > NEAR_ZERO_THRESHOLD,
         "positive",
         np.where(rolling_ret < -NEAR_ZERO_THRESHOLD, "negative", "near-zero"),
     )
 
-    bar_ret = closes.pct_change().fillna(0.0)
-    rolling_vol = bar_ret.rolling(window=periods, min_periods=max(2, periods // 4)).std().fillna(0.0)
+    bar_ret = closes.pct_change()
+    rolling_vol = bar_ret.rolling(window=periods, min_periods=max(periods // 2, 10)).std()
+    valid_mask = rolling_ret.notna() & rolling_vol.notna() & quarter_all.notna()
+    if valid_mask.sum() < 2:
+        raise ValueError(
+            "Not enough valid rows after computing rolling 30-day return/volatility proxies. "
+            "Need at least 2 rows with non-NaN rolling metrics."
+        )
+
+    quarter_labels = quarter_all.loc[valid_mask].to_numpy(dtype=int)
+    ret_sign = np.asarray(ret_sign)[valid_mask.to_numpy()]
+    rolling_vol = rolling_vol.loc[valid_mask]
+
     try:
         vol_bins = pd.qcut(rolling_vol, q=3, labels=["low", "mid", "high"], duplicates="drop")
     except ValueError:
         vol_bins = pd.cut(rolling_vol, bins=3, labels=["low", "mid", "high"], include_lowest=True)
-    vol_labels = vol_bins.astype(str).replace("nan", "mid").to_numpy()
+    if vol_bins.isna().any():
+        raise ValueError(
+            "Volatility bins contain NaN values after binning. "
+            "Check data quality or rolling window configuration."
+        )
+    vol_labels = vol_bins.astype(str).to_numpy()
 
-    return quarter_labels, ret_sign, vol_labels
+    return valid_mask.to_numpy(), quarter_labels, ret_sign, vol_labels
 
 
 def _run_tsne(emb: np.ndarray) -> np.ndarray:
@@ -237,8 +253,12 @@ def main() -> None:
         f"{len(btc_test)} | {btc_test['timestamp'].min()} -> {btc_test['timestamp'].max()}"
     )
 
-    quarter_labels, ret_sign, vol_labels = _build_labels(btc_test)
-    coords = _run_tsne(emb)
+    coords_all = _run_tsne(emb)
+    valid_mask, quarter_labels, ret_sign, vol_labels = _build_labels(btc_test)
+    coords = coords_all[valid_mask]
+    dropped = len(coords_all) - len(coords)
+    if dropped > 0:
+        print(f"[info] Dropped {dropped} warmup rows with undefined rolling proxies before plotting/scoring.")
 
     _plot_quarter(coords, quarter_labels)
     _plot_return_sign(coords, ret_sign)
