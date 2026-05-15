@@ -3,6 +3,7 @@
 
 from __future__ import annotations
 
+import inspect
 from pathlib import Path
 
 import matplotlib.pyplot as plt
@@ -121,6 +122,7 @@ def _build_labels(df: pd.DataFrame) -> tuple[np.ndarray, np.ndarray, np.ndarray,
     try:
         vol_bins = pd.qcut(rolling_vol, q=3, duplicates="drop")
     except ValueError:
+        print("[info] qcut volatility binning failed; falling back to equal-width bins (pd.cut).")
         vol_bins = pd.cut(rolling_vol, bins=3, include_lowest=True)
     if vol_bins.isna().any():
         raise ValueError(
@@ -145,22 +147,18 @@ def _build_labels(df: pd.DataFrame) -> tuple[np.ndarray, np.ndarray, np.ndarray,
 
 def _run_tsne(emb: np.ndarray) -> np.ndarray:
     print("Running t-SNE (verbose=1); this may take a while...")
-    try:
-        tsne = TSNE(
-            n_components=2,
-            perplexity=30,
-            n_iter=1000,
-            random_state=42,
-            verbose=1,
-        )
-    except TypeError:
-        tsne = TSNE(
-            n_components=2,
-            perplexity=30,
-            max_iter=1000,
-            random_state=42,
-            verbose=1,
-        )
+    kwargs = dict(
+        n_components=2,
+        perplexity=30,
+        random_state=42,
+        verbose=1,
+    )
+    tsne_params = inspect.signature(TSNE.__init__).parameters
+    if "n_iter" in tsne_params:
+        kwargs["n_iter"] = 1000
+    else:
+        kwargs["max_iter"] = 1000
+    tsne = TSNE(**kwargs)
     return tsne.fit_transform(emb)
 
 
